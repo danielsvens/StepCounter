@@ -23,7 +23,7 @@ const tableContainerStyle = {
   maxWidth: 800,
   maxHeight: 320,
   overflow: 'overlay',
-  border: '1px solid #0d1117',
+  border: '1px solid #212121',
 };
 
 const topStyle = {
