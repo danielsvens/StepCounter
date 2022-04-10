@@ -15,7 +15,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: 'http://step-counter-api:8083/graphql',
+  uri: 'http://http://192.168.1.4:32022/graphql',
   cache: new InMemoryCache(),
 });
 
