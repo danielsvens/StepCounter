@@ -20,10 +20,11 @@ const styles = {
 };
 
 const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
+  const [players, setPlayers] = useState<Result[]>([]);
   const [leader, setLeader] = useState<String>("");
 
   const calculateData = () => {
-    if(typeof tableData !== "undefined" && tableData.length == 0){
+    if(tableData.length == 0){
       return;
     }
 
@@ -31,15 +32,16 @@ const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
       new Set(tableData.map((item) => item.name))
     );
 
-    const result: Result[] = names.map((name) => ({
+    const players: Result[] = names.map((name) => ({
       name: name,
       sum: calculateSum(name),
     }));
 
-    const leader: Result = result.reduce((prev, current) =>
+    const leader: Result = players.reduce((prev, current) =>
       prev.sum > current.sum ? prev : current
     );
 
+    setPlayers(players);
     setLeader(leader.name);
   };
 
@@ -49,9 +51,13 @@ const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
       .reduce((sum, current) => Number(sum) + Number(current.steps), 0);
   };
 
-  const findDifference = (players: Result[]) => {
+  const findDifference = (players: Result[] | []): Number => {
     if (leader === "") {
       return 0;
+    }
+
+    if (players.length === 1) {
+      return Number(players[0].sum)
     }
 
     const secondSteps: Result = players
@@ -70,7 +76,7 @@ const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
   return (
     <Box style={styles}>
       <Typography variant="h5">
-        {leader} leder med {findDifference} steg
+        {leader} leder med {findDifference(players)} steg
       </Typography>
     </Box>
   );
