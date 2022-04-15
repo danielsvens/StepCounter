@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { table } from "console";
 import { useState, useEffect } from "react";
 import { Step } from "../types";
 
@@ -22,6 +23,10 @@ const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
   const [leader, setLeader] = useState<String>("");
 
   const calculateData = () => {
+    if(typeof tableData !== "undefined" && tableData.length == 0){
+      return;
+    }
+
     const names: string[] = Array.from(
       new Set(tableData.map((item) => item.name))
     );
@@ -40,20 +45,20 @@ const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
 
   const calculateSum = (name: string): number => {
     return tableData
-      .filter((item) => item.name == name)
+      .filter((item) => item.name === name)
       .reduce((sum, current) => Number(sum) + Number(current.steps), 0);
   };
 
   const findDifference = (players: Result[]) => {
-    if (leader == "") {
+    if (leader === "") {
       return 0;
     }
 
     const secondSteps: Result = players
-      .filter((item) => item.name != leader)
+      .filter((item) => item.name !== leader)
       .reduce((prev, current) => (prev.sum > current.sum ? prev : current));
 
-    const leaderSteps: Result | undefined = players.find((item) => item.name == leader);
+    const leaderSteps: Result | undefined = players.find((item) => item.name === leader);
 
     return Math.abs(Number(secondSteps.sum) - Number(leaderSteps?.sum));
   };
