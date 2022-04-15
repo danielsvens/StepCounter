@@ -2,7 +2,7 @@ import { Grid, TextField, MenuItem, Button, styled } from "@mui/material";
 import DatePicker from "@mui/lab/DatePicker";
 import { useState } from "react";
 import { Moment } from "moment";
-import { StepInput } from '../types'
+import { StepInput } from "../types";
 
 const styles = {
   justifyContent: "center",
@@ -24,18 +24,7 @@ const defaultValues: StepInput = {
   date: "",
 };
 
-interface Names {
-  name: string;
-}
-
-const names: Names[] = [
-  {
-    name: "Roya",
-  },
-  {
-    name: "Daniel",
-  },
-];
+const names = ["Roya", "Daniel"];
 
 const StyledButton = styled(Button)(({ theme }) => ({
   background: theme.palette.secondary.main,
@@ -65,7 +54,7 @@ const StegInput: React.FC<StegInputProps> = ({ setData }) => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (formValues.name != "") {
-      formValues.date = pickedDate?.format("DD-MM-YYYY") || '';
+      formValues.date = pickedDate?.format("DD-MM-YYYY") || "";
       setData(formValues);
     }
   };
@@ -85,8 +74,8 @@ const StegInput: React.FC<StegInputProps> = ({ setData }) => {
             style={{ width: "25ch" }}
           >
             {names.map((n, index) => (
-              <MenuItem key={index} value={n.name}>
-                {n.name}
+              <MenuItem key={index} value={n}>
+                {n}
               </MenuItem>
             ))}
           </TextField>
@@ -112,7 +101,9 @@ const StegInput: React.FC<StegInputProps> = ({ setData }) => {
           />
         </Grid>
         <Grid item xs={12} style={styles}>
-          <StyledButton sx={{ boxShadow: 1 }} type="submit">Lägg till</StyledButton>
+          <StyledButton sx={{ boxShadow: 1 }} type="submit">
+            Lägg till
+          </StyledButton>
         </Grid>
       </form>
     </Grid>

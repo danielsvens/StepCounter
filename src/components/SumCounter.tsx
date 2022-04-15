@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
-import { StepInput, Step } from '../types';
+import { Step } from "../types";
 
 interface PlayerValuesProps {
   tableData: Step[];
@@ -24,41 +24,31 @@ const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
   const [leader, setLeader] = useState<String>();
 
   const calculateData = () => {
-    const royaResult: Result = {
-      name: "Roya",
-      sum: calculateSum("Roya"),
-    };
+    const names: string[] = Array.from(
+      new Set(tableData.map((item) => item.name))
+    );
 
-    const danielResult: Result = {
-      name: "Daniel",
-      sum: calculateSum("Daniel"),
-    };
+    const result: Result[] = names.map((name) => ({
+      name: name,
+      sum: calculateSum(name),
+    }));
 
-    setDanielResult(danielResult);
-    setRoyaResult(royaResult);
+    const leader: Result = result.reduce((prev, current) =>
+      prev.sum > current.sum ? prev : current
+    );
+
+    setLeader(leader.name);
   };
-
-  useEffect(() => {
-    calculateData();
-  }, [tableData]);
-
-  useEffect(() => {
-    if (danielResult.sum < royaResult.sum) {
-      setLeader(royaResult.name);
-    }
-  }, [royaResult]);
-
-  useEffect(() => {
-    if (danielResult.sum > royaResult.sum) {
-      setLeader(danielResult.name);
-    }
-  }, [danielResult]);
 
   const calculateSum = (name: string): number => {
     return tableData
       .filter((item) => item.name == name)
       .reduce((sum, current) => Number(sum) + Number(current.steps), 0);
   };
+
+  useEffect(() => {
+    calculateData();
+  }, [tableData]);
 
   return (
     <Box style={styles}>

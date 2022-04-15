@@ -67,7 +67,6 @@ const Overview: React.FunctionComponent = () => {
       console.log(error);
     },
     onCompleted: (data) => {
-      console.log(data);
       const newList: Step[] = tableDataList.concat(data);
       setTableDataList(newList);
     },
