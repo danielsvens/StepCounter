@@ -19,9 +19,7 @@ const styles = {
 };
 
 const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
-  const [danielResult, setDanielResult] = useState<Result>({} as Result);
-  const [royaResult, setRoyaResult] = useState<Result>({} as Result);
-  const [leader, setLeader] = useState<String>();
+  const [leader, setLeader] = useState<String>("");
 
   const calculateData = () => {
     const names: string[] = Array.from(
@@ -46,6 +44,20 @@ const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
       .reduce((sum, current) => Number(sum) + Number(current.steps), 0);
   };
 
+  const findDifference = (players: Result[]) => {
+    if (leader == "") {
+      return 0;
+    }
+
+    const secondSteps: Result = players
+      .filter((item) => item.name != leader)
+      .reduce((prev, current) => (prev.sum > current.sum ? prev : current));
+
+    const leaderSteps: Result | undefined = players.find((item) => item.name == leader);
+
+    return Math.abs(Number(secondSteps.sum) - Number(leaderSteps?.sum));
+  };
+
   useEffect(() => {
     calculateData();
   }, [tableData]);
@@ -53,8 +65,7 @@ const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
   return (
     <Box style={styles}>
       <Typography variant="h5">
-        {leader} leder med{" "}
-        {Math.abs(Number(danielResult.sum) - Number(royaResult.sum))} steg
+        {leader} leder med {findDifference} steg
       </Typography>
     </Box>
   );
