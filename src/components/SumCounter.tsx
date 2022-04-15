@@ -21,7 +21,7 @@ const styles = {
 
 const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
   const [players, setPlayers] = useState<Result[]>([]);
-  const [leader, setLeader] = useState<String>("");
+  const [leader, setLeader] = useState<String>("Ingen");
 
   const calculateData = () => {
     if(tableData.length == 0){
@@ -52,7 +52,7 @@ const SumCounter: React.FC<PlayerValuesProps> = ({ tableData }) => {
   };
 
   const findDifference = (players: Result[] | []): Number => {
-    if (leader === "") {
+    if (leader === "Ingen") {
       return 0;
     }
 
